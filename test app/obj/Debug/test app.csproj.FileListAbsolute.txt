@@ -1,0 +1,34 @@
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.csproj.AssemblyReference.cache
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\MainWindow.g.cs
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\App.g.cs
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app_MarkupCompile.cache
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app_MarkupCompile.lref
+C:\Users\Ronar\source\repos\test app\test app\bin\Debug\test app.exe.config
+C:\Users\Ronar\source\repos\test app\test app\bin\Debug\test app.exe
+C:\Users\Ronar\source\repos\test app\test app\bin\Debug\test app.pdb
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\MainWindow.baml
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.g.resources
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test_app.Properties.Resources.resources
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.csproj.GenerateResource.cache
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.csproj.CoreCompileInputs.cache
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.exe
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.pdb
+C:\Users\Ronar\source\repos\test app\test app\obj\Debug\test app.csproj.SuggestedBindingRedirects.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\bin\Debug\test app.exe.config
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\bin\Debug\test app.exe
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\bin\Debug\test app.pdb
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.csproj.AssemblyReference.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.csproj.SuggestedBindingRedirects.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\MainWindow.g.cs
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\App.g.cs
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app_MarkupCompile.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app_MarkupCompile.lref
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\MainWindow.baml
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.g.resources
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test_app.Properties.Resources.resources
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.csproj.GenerateResource.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.csproj.CoreCompileInputs.cache
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.exe
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\test app.pdb
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\math_solving.g.cs
+C:\Users\Coder Laptop\Downloads\repos\test app\test app\obj\Debug\math_solving.baml
