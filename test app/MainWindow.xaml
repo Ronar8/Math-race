@@ -5,26 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test_app"
         mc:Ignorable="d"
-        Title="Math Race" Height="450" Width="800">
+        Title="Math Race" Height="768" Width="1024">
     <Canvas Name="MyCanvas" Focusable="True" KeyDown="Key_Down" KeyUp="Key_Up" Background="LightCyan">
 
-        <Rectangle Name="background" Height="400" Width="1262" Fill="Orange" Canvas.Left="0" />
+        <Rectangle Name="background" Height="768" Width="2048" Canvas.Left="0" />
         <!-- height and width of the image for the background-->
 
-        <Rectangle Name="background_2" Height="400" Width="1262" Fill="Green" Canvas.Left="1260" />
+        <Rectangle Name="background_2" Height="768" Width="2048" Fill="Green" Canvas.Left="1260" />
 
-        <Rectangle Name="ground" Height="32" Width="792" Fill="Black" Canvas.Top="387" Canvas.Left="0" />
+        <Rectangle Name="ground" Height="32" Width="900" Fill="Black" Canvas.Top="599" Canvas.Left="0" />
 
-        <Rectangle Name="player" Height="99" Width="67" Fill="Red" Canvas.Top="260" Canvas.Left="87" />
+        <Rectangle Name="player" Height="99" Width="67" Fill="Red" Canvas.Top="460" Canvas.Left="87" />
 
-        <Rectangle Name="obstacle1" Height="178" Width="50" Fill="Blue" Canvas.Top="320" Canvas.Left="721" />
+        <Rectangle Name="obstacle1" Height="178" Width="50" Fill="Blue" Canvas.Top="502" Canvas.Left="724" />
 
-        <Rectangle Height="51" Stroke="Black" Width="245" Canvas.Left="555" Fill="#FFE81818"/>
-        <Label Name="Time" FontSize="24" Content="Czas: 0" Canvas.Left="564" />
-        <Label Name="countdown_3s" Canvas.Left="364" Canvas.Top="176" FontSize="54">3</Label>
-        
-        <Image Name="life_hearts"  Height="41" Width="145" Canvas.Left="652" Canvas.Top="2"/>
-        
+        <Rectangle Height="51" Stroke="Black" Width="252" Canvas.Left="772" Fill="#FFE81818" Canvas.Top="48"/>
+        <Label Name="Time" FontSize="24" Content="Czas: 0" Canvas.Left="772" Canvas.Top="53" />
+        <Label Name="countdown_3s" Canvas.Left="475" Canvas.Top="273" FontSize="76">3</Label>
+
+        <Image Name="life_hearts" Height="41" Width="146" Canvas.Left="866" Canvas.Top="53"/>
+        <Rectangle Height="48" Stroke="Black" Width="1024" Fill="Yellow"/>
+        <Button Content="Menu" Canvas.Left="28" Height="48" Width="81"/>
+
+
+
 
 
     </Canvas>

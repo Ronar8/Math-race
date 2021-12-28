@@ -39,7 +39,7 @@ namespace test_app
             math_timer.Interval = TimeSpan.FromSeconds(1);
             math_timer.Tick += timer_Tick;
 
-            math_problem_generator();
+            math_generator_easy();
 
         }
 
@@ -70,29 +70,26 @@ namespace test_app
             if (num_input == answer)
             {
                 this.DialogResult = true;
-            }
-            else if (num_input != answer)
-            {
-                this.DialogResult = false;
+                math_timer.Stop();
             }
             else
             {
                 this.DialogResult = false;
+                math_timer.Stop();
             }
         }
 
-        public void math_problem_generator()
+        public void math_generator_easy()
         {
-            timeLeft = 30;
+            timeLeft = rnd.Next(7, 11);
             timeLabel.Content = " 30 seconds";
             math_timer.Start();
 
-            addend1 = rnd.Next(100);
-            addend2 = rnd.Next(100);
+            addend1 = rnd.Next(1, 50);
+            addend2 = rnd.Next(1, 50);
 
             string string1 = addend1.ToString();
             string string2 = addend2.ToString();
-
             string merged_string = string1 + string2;
 
             string operator_field = "";

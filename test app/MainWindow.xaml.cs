@@ -23,22 +23,20 @@ namespace test_app
     /// </summary>
     public partial class MainWindow : Window
     {
-        
         DispatcherTimer gameTimer = new DispatcherTimer();
         DispatcherTimer stopwatch = new DispatcherTimer();
         DispatcherTimer countdown = new DispatcherTimer();
 
         ImageBrush playerSprite = new ImageBrush();
-        ImageBrush backgroundSprite = new ImageBrush();
+        ImageBrush background1_Sprite = new ImageBrush();
+        ImageBrush background2_Sprite = new ImageBrush();
         ImageBrush obstacle1_Sprite = new ImageBrush();
 
         ImageBrush obstacle2_Sprite = new ImageBrush();
         ImageBrush obstacle3_Sprite = new ImageBrush();
         ImageBrush obstacle4_Sprite = new ImageBrush();
 
-        Rect player_hitbox;
-        Rect ground_hitbox;
-        Rect obstacle1_hitbox;
+        Rect player_hitbox, ground_hitbox, obstacle1_hitbox;
 
         Rect obstacle2_hitbox;
         Rect obstacle3_hitbox;
@@ -48,23 +46,17 @@ namespace test_app
 
         //variables regarding player character
         bool jumping;
-        int jump_force;
-        int player_speed;
-        int lifes;
+        int jump_force, player_speed, lifes, touched_obstacles;
         double sprite_index;
 
-        int timer;
-        int countdown_timer;
+        int timer, countdown_timer;
 
-        double diff_scrolling;
-        double diff_player_speed;
+        double diff_scrolling, diff_player_speed;
 
         bool stop_game;
 
-        
-
         //randomize obstacle height protruding from the ground
-        int [] obstacle_height = {300, 305, 310, 315, 320};
+        int [] obstacle_height = {500, 505, 510, 515, 520};
 
 
         public MainWindow()
@@ -82,13 +74,10 @@ namespace test_app
             countdown.Interval = TimeSpan.FromSeconds(1);
             countdown.Tick += countdown_Tick;
 
-
             InitializeGameElements();
 
             countdown_timer = 3;
-
             countdown_3s.Content = "3";
-
             countdown.Start();
         }
 
@@ -100,12 +89,12 @@ namespace test_app
             Canvas.SetLeft(background_2, Canvas.GetLeft(background_2) - diff_scrolling);
 
             //parallax scrolling of background
-            if (Canvas.GetLeft(background) < -1262)
+            if (Canvas.GetLeft(background) < -2048)
             {
                 Canvas.SetLeft(background, Canvas.GetLeft(background_2) + background_2.Width - 1);
             }
 
-            if (Canvas.GetLeft(background_2) < -1262)
+            if (Canvas.GetLeft(background_2) < -2048)
             {
                 Canvas.SetLeft(background_2, Canvas.GetLeft(background) + background.Width - 1);
             }
@@ -153,12 +142,14 @@ namespace test_app
                 gameTimer.Stop();
                 stopwatch.Stop();
 
+                touched_obstacles++;
+
                 math_solving math_window = new math_solving();
                 math_window.ShowDialog();
 
                 if (math_window.DialogResult == true)
                 {
-                    Canvas.SetLeft(player, Canvas.GetLeft(player) + 100);
+                    change_obstacle1_pos();
 
                     stop_game = false;
 
@@ -174,7 +165,7 @@ namespace test_app
                         Uri dynamic_hearts = new Uri("pack://application:,,,/lifes/hearts_" + lifes + ".png");
                         life_hearts.Source = new BitmapImage(dynamic_hearts);
 
-                        Canvas.SetLeft(player, Canvas.GetLeft(player) + 100);
+                        change_obstacle1_pos();
 
                         stop_game = false;
 
@@ -191,6 +182,8 @@ namespace test_app
                         stopwatch.Stop();
 
                         MessageBox.Show("Wyczerpano limit zyc, koniec gry");
+
+                        this.Close();
                     }
 
                 }
@@ -217,11 +210,16 @@ namespace test_app
             // repeat obstacle1
             if (Canvas.GetLeft(obstacle1) < -50)
             {
-                Canvas.SetLeft(obstacle1, 950);
-
-                Canvas.SetTop(obstacle1, obstacle_height[rand.Next(0, obstacle_height.Length)]);
+                change_obstacle1_pos();
             }
 
+        }
+
+        private void change_obstacle1_pos()
+        {
+            Canvas.SetLeft(obstacle1, 950);
+
+            Canvas.SetTop(obstacle1, obstacle_height[rand.Next(0, obstacle_height.Length)]);
         }
 
         private void stopwatch_Tick(object sender, EventArgs e)
@@ -245,8 +243,6 @@ namespace test_app
                 countdown_3s.Visibility = Visibility.Collapsed;
                 StartGame();
             }
-
-
         }
 
         //two functions related to dynamic difficulty, not working properly
@@ -298,18 +294,19 @@ namespace test_app
 
         private void InitializeGameElements()
         {
-            backgroundSprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/background.gif"));
-            background.Fill = backgroundSprite;
-            background_2.Fill = backgroundSprite;
+            background1_Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/background_1.png"));
+            background.Fill = background1_Sprite;
+            background2_Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/background_2.png"));
+            background_2.Fill = background2_Sprite;
 
             Canvas.SetLeft(background, 0);
-            Canvas.SetLeft(background_2, 1260);
+            Canvas.SetLeft(background_2, 2046);
 
             Canvas.SetLeft(player, 110);
-            Canvas.SetTop(player, 230);
+            Canvas.SetTop(player, 460);
 
             Canvas.SetLeft(obstacle1, 950);
-            Canvas.SetTop(obstacle1, 310);
+            Canvas.SetTop(obstacle1, 510);
 
             Sprite_Change(1);
 
