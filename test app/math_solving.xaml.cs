@@ -20,11 +20,19 @@ namespace test_app
     /// </summary>
     public partial class math_solving : Window
     {
-
         private static Random rnd = new Random();
+
+        bool difficulty_hard;
 
         int addend1;
         int addend2;
+
+        int multiplicant;
+        int multiplier;
+
+        int dividend;
+        int divisor;
+        int temp_quotient;
 
         double answer = 0;
 
@@ -32,15 +40,27 @@ namespace test_app
 
         DispatcherTimer math_timer = new DispatcherTimer();
 
-        public math_solving()
+        public math_solving(bool difficulty_hard)
         {
             InitializeComponent();
 
             math_timer.Interval = TimeSpan.FromSeconds(1);
             math_timer.Tick += timer_Tick;
 
-            math_generator_easy();
+            this.difficulty_hard = difficulty_hard;
 
+            if (difficulty_hard)
+            {
+                math_generator_hard();
+            }
+            else
+            {
+                math_generator_easy();
+            }
+
+
+
+            switchh(addend1, addend2, multiplicant, multiplier, dividend, divisor);
         }
 
         private void timer_Tick(object sender, EventArgs e)
@@ -69,35 +89,57 @@ namespace test_app
 
             if (num_input == answer)
             {
-                this.DialogResult = true;
                 math_timer.Stop();
+                this.DialogResult = true;
             }
             else
             {
-                this.DialogResult = false;
                 math_timer.Stop();
+                this.DialogResult = false;
             }
         }
 
         public void math_generator_easy()
         {
-            timeLeft = rnd.Next(7, 11);
-            timeLabel.Content = " 30 seconds";
+            timeLeft = rnd.Next(13, 16);
+            timeLabel.Content = "x seconds";
             math_timer.Start();
 
             addend1 = rnd.Next(1, 50);
             addend2 = rnd.Next(1, 50);
 
-            string string1 = addend1.ToString();
-            string string2 = addend2.ToString();
-            string merged_string = string1 + string2;
+            multiplicant = rnd.Next(2, 10);
+            multiplier = rnd.Next(2, 10);
 
-            string operator_field = "";
+            divisor = rnd.Next(2, 5);
+            temp_quotient = rnd.Next(2, 5);
+            dividend = divisor * temp_quotient;
+        }
 
 
+        public void math_generator_hard()
+        {
+            timeLeft = rnd.Next(7, 11);
+            timeLabel.Content = "x seconds";
+            math_timer.Start();
+
+            addend1 = rnd.Next(1, 101);
+            addend2 = rnd.Next(1, 101);
+
+            multiplicant = rnd.Next(2, 15);
+            multiplier = rnd.Next(2, 15);
+
+            divisor = rnd.Next(2, 15);
+            temp_quotient = rnd.Next(2, 15);
+            dividend = divisor * temp_quotient;
+        }
+
+        public void switchh(int a_1, int a_2, int m_1, int m_2, int d_1, int d_2)
+        {
+            string operator_field;
             int math_Operator = rnd.Next(5);
-            
-            switch(math_Operator)
+
+            switch (math_Operator)
             {
                 case 1:
                     operator_field = "+";
@@ -109,11 +151,11 @@ namespace test_app
                     break;
                 case 3:
                     operator_field = "*";
-                    answer = addend1 * addend2;
+                    answer = multiplicant * multiplier;
                     break;
                 case 4:
                     operator_field = "/";
-                    answer = addend1 / addend2;
+                    answer = dividend / divisor;
                     break;
                 default:
                     operator_field = "+";
@@ -121,12 +163,24 @@ namespace test_app
                     break;
             }
 
-
-
-
-            math_question.Content = "What is the result: " + string1 + operator_field + string2;
-
+            if (operator_field == "+")
+            {
+                math_question.Content = "Podaj wynik działania: " + $"{addend1} {operator_field} {addend2}";
+            }
+            else if (operator_field == "*")
+            {
+                math_question.Content = "Podaj wynik działania: " + $"{multiplicant} * {multiplier}";
+            }
+            else
+            {
+                math_question.Content = "Podaj wynik działania: " + $"{dividend} / {divisor}";
+            }
         }
 
+        private void dialog_Cancel_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            math_timer.Stop();
+            this.DialogResult = false;
+        }
     }
 }

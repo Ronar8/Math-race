@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:test_app"
         mc:Ignorable="d"
         Title="Math Race" Height="768" Width="1024">
-    <Canvas Name="MyCanvas" Focusable="True" KeyDown="Key_Down" KeyUp="Key_Up" Background="LightCyan">
+    <Canvas Name="MyCanvas" Focusable="True" KeyUp="Key_Up" Background="LightCyan">
 
         <Rectangle Name="background" Height="768" Width="2048" Canvas.Left="0" />
         <!-- height and width of the image for the background-->
@@ -25,7 +25,10 @@
 
         <Image Name="life_hearts" Height="41" Width="146" Canvas.Left="866" Canvas.Top="53"/>
         <Rectangle Height="48" Stroke="Black" Width="1024" Fill="Yellow"/>
-        <Button Content="Menu" Canvas.Left="28" Height="48" Width="81"/>
+        <Button Content="Menu" Click="menu_Btn" Canvas.Left="28" Height="48" Width="81"/>
+        <Rectangle Name="menu_Area" Height="732" Stroke="Black" Width="446" Canvas.Left="277" Canvas.Top="10" Fill="#FFBDBDBD"/>
+        <Button Name="menu_Restart_Button" Content="Zrestartuj gre" Click="game_Restart_Btn" Canvas.Left="405" Canvas.Top="226" Height="47" Width="190"/>
+        <Button Name="menu_Exit_Button" Content="Wyjdz z gry" Click="game_Exit_Btn" Canvas.Left="405" Canvas.Top="332" Height="47" Width="190"/>
 
 
 

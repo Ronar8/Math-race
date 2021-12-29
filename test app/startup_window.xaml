@@ -17,9 +17,16 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        
-        <Button Name="game_Start_Btn" Content="Start gry" Click="game_Start_Btn_Click" Grid.Row="1" Width="200" Height="50"/>
-        <Button Name="game_Exit_Btn" Content="Wyjdź z gry" Click="game_Exit_Btn_Click" Grid.Row="2" Width="200" Height="50"/>
+
+        <Button Name="game_Start_Btn" Content="Start gry" Click="game_Start_Btn_Click" Grid.Row="1" Margin="300,29,300,30"/>
+        <Button Name="game_Exit_Btn" Content="Wyjdź z gry" Click="game_Exit_Btn_Click" Grid.Row="3" Margin="300,30,300,29"/>
+        <Button Name="game_Difficulty_Btn" Content="Zmień poziom trudności " Click="game_Difficulty_Btn_Click" Grid.Row="2" Margin="300,48,300,10"/>
+
+        <Popup Name="difficulty_Change" Grid.Row="0" Placement="Center" VerticalOffset="192" Grid.RowSpan="2">
+            <TextBlock Name="difficulty_Change_txtBox" Background="Green" FontSize="16" Text="test" TextAlignment="Center" />
+        </Popup>
+        <Label Name="difficulty_status"  Content="Aktualny poziom trudności: SZKOLA PODSTAWOWA" Margin="248,10,248,67" Grid.Row="2"/>
+
 
     </Grid>
 </Window>

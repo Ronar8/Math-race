@@ -42,6 +42,8 @@ namespace test_app
         Rect obstacle3_hitbox;
         Rect obstacle4_hitbox;
 
+        
+
         private static Random rand = new Random();
 
         //variables regarding player character
@@ -53,13 +55,12 @@ namespace test_app
 
         double diff_scrolling, diff_player_speed;
 
-        bool stop_game;
-
         //randomize obstacle height protruding from the ground
         int [] obstacle_height = {500, 505, 510, 515, 520};
 
+        bool difficulty_hard;
 
-        public MainWindow()
+        public MainWindow(bool difficulty_hard)
         {
             InitializeComponent();
 
@@ -79,6 +80,7 @@ namespace test_app
             countdown_timer = 3;
             countdown_3s.Content = "3";
             countdown.Start();
+            this.difficulty_hard = difficulty_hard;
         }
 
         private void GameEngine(object sender, EventArgs e)
@@ -137,24 +139,18 @@ namespace test_app
 
             if (player_hitbox.IntersectsWith(obstacle1_hitbox))
             {
-                stop_game = true;
-
-                gameTimer.Stop();
-                stopwatch.Stop();
+                game_Stop();
 
                 touched_obstacles++;
 
-                math_solving math_window = new math_solving();
+                math_solving math_window = new math_solving(difficulty_hard);
                 math_window.ShowDialog();
 
                 if (math_window.DialogResult == true)
                 {
                     change_obstacle1_pos();
 
-                    stop_game = false;
-
-                    gameTimer.Start();
-                    stopwatch.Start();
+                    game_Start();
                 }
                 else
                 {
@@ -167,19 +163,13 @@ namespace test_app
 
                         change_obstacle1_pos();
 
-                        stop_game = false;
-
-                        gameTimer.Start();
-                        stopwatch.Start();
+                        game_Start();
                     }
                     else
                     {
                         life_hearts.Visibility = Visibility.Collapsed;
 
-                        stop_game = true;
-
-                        gameTimer.Stop();
-                        stopwatch.Stop();
+                        game_Stop();
 
                         MessageBox.Show("Wyczerpano limit zyc, koniec gry");
 
@@ -222,11 +212,45 @@ namespace test_app
             Canvas.SetTop(obstacle1, obstacle_height[rand.Next(0, obstacle_height.Length)]);
         }
 
+        private void game_Restart_Btn(object sender, RoutedEventArgs e)
+        {
+            MainWindow mW = new MainWindow(difficulty_hard);
+            mW.Show();
+            this.Close();
+        }
+
+        private void menu_Btn(object sender, RoutedEventArgs e)
+        {
+            menu_Area.Visibility = Visibility.Visible;
+            menu_Restart_Button.Visibility = Visibility.Visible;
+            menu_Exit_Button.Visibility = Visibility.Visible;
+
+            game_Stop();
+        }
+
+        private void game_Exit_Btn(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void stopwatch_Tick(object sender, EventArgs e)
         {
             timer++;
 
             Time.Content = "Czas: " + timer + " s";
+        }
+
+        private void game_Stop()
+        {
+            gameTimer.Stop();
+            stopwatch.Stop();
+            countdown.Stop();
+        }
+
+        private void game_Start()
+        {
+            gameTimer.Start();
+            stopwatch.Start();
         }
 
         private void countdown_Tick(object sender, EventArgs e)
@@ -270,16 +294,6 @@ namespace test_app
                 return m;
             }
         }*/
-
-        private void Key_Down(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.R && stop_game == true)
-            {
-                StartGame();
-                stopwatch.Start();
-            }
-        }
-
         private void Key_Up(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space && jumping == false && Canvas.GetTop(player) > 260)
@@ -315,12 +329,15 @@ namespace test_app
 
             Uri default_hearts = new Uri("pack://application:,,,/lifes/hearts_3.png");
             life_hearts.Source = new BitmapImage(default_hearts);
+
+            menu_Area.Visibility = Visibility.Collapsed;
+            menu_Restart_Button.Visibility = Visibility.Collapsed;
+            menu_Exit_Button.Visibility= Visibility.Collapsed;
         }
 
         private void StartGame()
         {
             jumping = false;
-            stop_game = false;
 
             jump_force = 20;
             player_speed = 5;
@@ -333,8 +350,7 @@ namespace test_app
 
             sprite_index = 0;
 
-            gameTimer.Start();
-            stopwatch.Start();
+            game_Start();
         }
 
         private void Sprite_Change(double i)
