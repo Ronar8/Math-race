@@ -13,43 +13,44 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace test_app
+namespace math_race
 {
     /// <summary>
     /// Logika interakcji dla klasy math_solving.xaml
     /// </summary>
     public partial class math_solving : Window
     {
-        private static Random rnd = new Random();
+        DispatcherTimer math_timer = new DispatcherTimer();
 
-        
+        // inicjalizacja zmiennej rand dla funkcji liczb losowych
+        private static Random rnd = new Random();
 
         bool difficulty_hard;
 
-        int addend1;
-        int addend2;
+        // zmienne dla funkcji dodawania
+        int addend1, addend2;
 
-        int multiplicant;
-        int multiplier;
+        // zmienne dla funkcji mnożenia
+        int multiplicant, multiplier;
 
-        int dividend;
-        int divisor;
-        int temp_quotient;
+        // zmienne dla funkcji dzielenia
+        int dividend, divisor, temp_quotient;
 
         double answer = 0;
 
         int timeLeft;
 
-        DispatcherTimer math_timer = new DispatcherTimer();
-
+        /// <summary>
+        /// logika dla okna z automatycznie wygenerowanym problemem matematycznym
+        /// parametr difficulty_hard spełnia tą samą funkcję co w głównym oknie gry (MainWindow.xaml)
+        /// </summary>
+        /// <param name="difficulty_hard"></param>
         public math_solving(bool difficulty_hard)
         {
             InitializeComponent();
 
             math_timer.Interval = TimeSpan.FromSeconds(1);
             math_timer.Tick += timer_Tick;
-
-            this.difficulty_hard = difficulty_hard;
 
             if (difficulty_hard)
             {
@@ -60,11 +61,15 @@ namespace test_app
                 math_generator_easy();
             }
 
+            math_question_generator(addend1, addend2, multiplicant, multiplier, dividend, divisor);
 
-
-            switchh(addend1, addend2, multiplicant, multiplier, dividend, divisor);
+            this.difficulty_hard = difficulty_hard;
         }
 
+        /// <summary>
+        /// funkcja odliczania pozostałego czasu na rozwiązanie problemu matematycznego
+        /// wyczerpanie limitu czasu skutkuje automatyczną utratą życia i powrotem do głównej gry
+        /// </summary>
         private void timer_Tick(object sender, EventArgs e)
         {
             if (timeLeft > 0)
@@ -83,6 +88,9 @@ namespace test_app
             }
         }
 
+        /// <summary>
+        /// logika kliknięcia przycisku sprawdzającego poprawność odpowiedzi
+        /// </summary>
         private void btnDialogOk_Click(object sender, RoutedEventArgs e)
         {
             string input = math_answer.Text;
@@ -101,6 +109,9 @@ namespace test_app
             }
         }
 
+        /// <summary>
+        /// generowanie 
+        /// </summary>
         public void math_generator_easy()
         {
             timeLeft = rnd.Next(13, 16);
@@ -136,7 +147,7 @@ namespace test_app
             dividend = divisor * temp_quotient;
         }
 
-        public void switchh(int a_1, int a_2, int m_1, int m_2, int d_1, int d_2)
+        public void math_question_generator(int a_1, int a_2, int m_1, int m_2, int d_1, int d_2)
         {
             string operator_field;
             int math_Operator = rnd.Next(1, 5);

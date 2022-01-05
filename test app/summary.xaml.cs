@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace test_app
+namespace math_race
 {
     /// <summary>
     /// Interaction logic for summary.xaml

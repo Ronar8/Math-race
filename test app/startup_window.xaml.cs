@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace test_app
+namespace math_race
 {
     /// <summary>
     /// Logika interakcji dla klasy startup_window.xaml

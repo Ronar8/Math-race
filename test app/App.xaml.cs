@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace test_app
+namespace math_race
 {
     /// <summary>
     /// Interaction logic for App.xaml
