@@ -5,27 +5,31 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:test_app"
         mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
         Title="startup_window" Height="450" Width="800">
+    <Window.Background>
+        <ImageBrush TileMode="None" ImageSource="/startup_background_test.png"/>
+    </Window.Background>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="75*"/>
+            <RowDefinition Height="109*"/>
+            <RowDefinition Height="141*"/>
+            <RowDefinition Height="109*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Name="game_Start_Btn" Content="Start gry" Click="game_Start_Btn_Click" Grid.Row="1" Margin="300,29,300,30"/>
-        <Button Name="game_Exit_Btn" Content="Wyjdź z gry" Click="game_Exit_Btn_Click" Grid.Row="3" Margin="300,30,300,29"/>
-        <Button Name="game_Difficulty_Btn" Content="Zmień poziom trudności " Click="game_Difficulty_Btn_Click" Grid.Row="2" Margin="300,48,300,10"/>
+        <Button Name="game_Start_Btn" Content="Start gry" Click="game_Start_Btn_Click" Grid.Row="1" Margin="300,40,300,18"/>
+        <Button Name="game_Exit_Btn" Content="Wyjdź z gry" Click="game_Exit_Btn_Click" Grid.Row="3" Margin="300,17,300,41"/>
+        <Button Name="game_Difficulty_Btn" Content="Zmień poziom trudności " Click="game_Difficulty_Btn_Click" Grid.Row="2" Margin="300,71,300,19"/>
 
-        <Popup Name="difficulty_Change" Grid.Row="0" Placement="Center" VerticalOffset="192" Grid.RowSpan="2">
+        <Popup Name="difficulty_Change" Grid.Row="0" Placement="Center" VerticalOffset="192" Grid.RowSpan="4" Margin="0,0,0,108">
             <TextBlock Name="difficulty_Change_txtBox" Background="Green" FontSize="16" Text="test" TextAlignment="Center" />
         </Popup>
-        <Label Name="difficulty_status"  Content="Aktualny poziom trudności: SZKOLA PODSTAWOWA" Margin="248,10,248,67" Grid.Row="2"/>
+        <Label Name="difficulty_status" FontSize="16" Content="Aktualny poziom trudności: SZKOLA PODSTAWOWA" Margin="212,16,188,82" Grid.Row="2" Foreground="White"/>
 
 
     </Grid>

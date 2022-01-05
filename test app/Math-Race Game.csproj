@@ -58,6 +58,9 @@
     <Compile Include="startup_window.xaml.cs">
       <DependentUpon>startup_window.xaml</DependentUpon>
     </Compile>
+    <Compile Include="summary.xaml.cs">
+      <DependentUpon>summary.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +78,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="startup_window.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="summary.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -130,6 +137,27 @@
   <ItemGroup>
     <Resource Include="images\background_1.png" />
     <Resource Include="images\background_2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\sunnyday.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="sunnyday.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\startup_background_test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="startup_background_test.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="obstacles\spike A.png" />
+    <Resource Include="obstacles\spike B.png" />
+    <Resource Include="obstacles\spike C.png" />
+    <Resource Include="obstacles\spike D.png" />
+    <Resource Include="obstacles\spike monster A.png" />
+    <Resource Include="obstacles\spike monster B.png" />
+    <Resource Include="obstacles\spike.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,0 +1,22 @@
+﻿<Window x:Class="test_app.summary"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:test_app"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterOwner"
+        Title="summary" Height="300" Width="500">
+    <Grid>
+        <WrapPanel Margin="96,49,96,111">
+            <TextBlock TextWrapping="Wrap" Height="34" Width="169" Text="Czas gry:"/>
+            <TextBlock x:Name="time" TextWrapping="Wrap" Text="TextBlock" Height="34" Width="86"/>
+            <TextBlock TextWrapping="Wrap" Height="34" Width="169" Text="Ilość ominiętych przeszkód: "/>
+            <TextBlock x:Name="obstacles_p" TextWrapping="Wrap" Text="TextBlock" Height="34" Width="86"/>
+            <TextBlock TextWrapping="Wrap" Height="34" Width="169" Text="Ilość dotkniętych przeszkód: "/>
+            <TextBlock x:Name="obstacles_t" TextWrapping="Wrap" Text="TextBlock" Height="34" Width="86"/>
+        </WrapPanel>
+        <Button x:Name="game_End" Content="Zakończ grę" Click="game_End_Btn" Margin="188,178,188,64"/>
+
+    </Grid>
+</Window>

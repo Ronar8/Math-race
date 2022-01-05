@@ -30,35 +30,26 @@ namespace test_app
         ImageBrush playerSprite = new ImageBrush();
         ImageBrush background1_Sprite = new ImageBrush();
         ImageBrush background2_Sprite = new ImageBrush();
-        ImageBrush obstacle1_Sprite = new ImageBrush();
-
-        ImageBrush obstacle2_Sprite = new ImageBrush();
-        ImageBrush obstacle3_Sprite = new ImageBrush();
-        ImageBrush obstacle4_Sprite = new ImageBrush();
-
-        Rect player_hitbox, ground_hitbox, obstacle1_hitbox;
-
-        Rect obstacle2_hitbox;
-        Rect obstacle3_hitbox;
-        Rect obstacle4_hitbox;
-
         
+        ImageBrush obstacle1_Sprite = new ImageBrush();
+        ImageBrush obstacle2_Sprite = new ImageBrush();
+
+
+        Rect player_hitbox, ground_hitbox, obstacle1_hitbox, obstacle2_hitbox;
 
         private static Random rand = new Random();
 
         //variables regarding player character
-        bool jumping;
-        int jump_force, player_speed, lifes, touched_obstacles;
+        bool jumping, is_touching_obstacle, difficulty_hard;
+        int jump_force, player_speed, lifes, touched_obstacles, passed_obstacles, obstacle_number;
         double sprite_index;
 
         int timer, countdown_timer;
 
-        double diff_scrolling, diff_player_speed;
+        double diff_scrolling, diff_player_sprite;
 
         //randomize obstacle height protruding from the ground
-        int [] obstacle_height = {500, 505, 510, 515, 520};
-
-        bool difficulty_hard;
+        int [] obstacle_height = {515, 520, 525};
 
         public MainWindow(bool difficulty_hard)
         {
@@ -103,11 +94,14 @@ namespace test_app
 
             //land the player on the ground
             Canvas.SetTop(player, Canvas.GetTop(player) + player_speed);
-            Canvas.SetLeft(obstacle1, Canvas.GetLeft(obstacle1) - 12);
+            //move obstacle from right to left
+            Canvas.SetLeft(obstacle1, Canvas.GetLeft(obstacle1) - diff_scrolling - 4);
+            Canvas.SetLeft(obstacle2, Canvas.GetLeft(obstacle2) - diff_scrolling - 4);
 
             //setup hitboxes
             player_hitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width - 25, player.Height - 5);
             obstacle1_hitbox = new Rect(Canvas.GetLeft(obstacle1), Canvas.GetTop(obstacle1), obstacle1.Width, obstacle1.Height);
+            obstacle2_hitbox = new Rect(Canvas.GetLeft(obstacle2), Canvas.GetTop(obstacle2), obstacle2.Width, obstacle2.Height);
             ground_hitbox = new Rect(Canvas.GetLeft(ground), Canvas.GetTop(ground), ground.Width, ground.Height);
 
             //logic when player lands on ground
@@ -119,12 +113,12 @@ namespace test_app
 
                 jumping = false;
 
-                sprite_index += diff_player_speed;
+                sprite_index += diff_player_sprite;
 
                 //dynamic difficulty, scrolling speed and player sprite change speed
                 if (timer % 5 == 0 && timer != 0)
                 {
-                    diff_player_speed += 0.001;
+                    diff_player_sprite += 0.001;
                     diff_scrolling += 0.1;
                 }
 
@@ -139,16 +133,30 @@ namespace test_app
 
             if (player_hitbox.IntersectsWith(obstacle1_hitbox))
             {
+                is_touching_obstacle = true;
+                obstacle_number = 1;
+            }
+            else if (player_hitbox.IntersectsWith(obstacle2_hitbox))
+            {
+                is_touching_obstacle = true;
+                obstacle_number = 2;
+            }
+
+            if (is_touching_obstacle)
+            {
                 game_Stop();
+
+                is_touching_obstacle = false;
 
                 touched_obstacles++;
 
                 math_solving math_window = new math_solving(difficulty_hard);
+                math_window.Owner = this;
                 math_window.ShowDialog();
 
                 if (math_window.DialogResult == true)
                 {
-                    change_obstacle1_pos();
+                    change_obstacle_pos(obstacle_number);
 
                     game_Start();
                 }
@@ -161,7 +169,7 @@ namespace test_app
                         Uri dynamic_hearts = new Uri("pack://application:,,,/lifes/hearts_" + lifes + ".png");
                         life_hearts.Source = new BitmapImage(dynamic_hearts);
 
-                        change_obstacle1_pos();
+                        change_obstacle_pos(obstacle_number);
 
                         game_Start();
                     }
@@ -172,6 +180,10 @@ namespace test_app
                         game_Stop();
 
                         MessageBox.Show("Wyczerpano limit zyc, koniec gry");
+
+                        summary summary_window = new summary(timer, passed_obstacles, touched_obstacles);
+                        summary_window.Owner = this;
+                        summary_window.ShowDialog();
 
                         this.Close();
                     }
@@ -200,16 +212,34 @@ namespace test_app
             // repeat obstacle1
             if (Canvas.GetLeft(obstacle1) < -50)
             {
-                change_obstacle1_pos();
+                obstacle_number = 1;
+                change_obstacle_pos(obstacle_number);
+                passed_obstacles++;
+            }
+            
+            if (Canvas.GetLeft(obstacle2) < -50)
+            {
+                obstacle_number = 2;
+                change_obstacle_pos(obstacle_number);
+                passed_obstacles++;
             }
 
         }
 
-        private void change_obstacle1_pos()
+        private void change_obstacle_pos(int obstacle_number)
         {
-            Canvas.SetLeft(obstacle1, 950);
+            if (obstacle_number == 1)
+            {
+                Canvas.SetLeft(obstacle1, 1100);
 
-            Canvas.SetTop(obstacle1, obstacle_height[rand.Next(0, obstacle_height.Length)]);
+                Canvas.SetTop(obstacle1, obstacle_height[rand.Next(0, obstacle_height.Length)]);
+            }
+            else if (obstacle_number == 2)
+            {
+                Canvas.SetLeft(obstacle2, 1500);
+
+                Canvas.SetTop(obstacle2, obstacle_height[rand.Next(0, obstacle_height.Length)]);
+            }
         }
 
         private void game_Restart_Btn(object sender, RoutedEventArgs e)
@@ -221,11 +251,34 @@ namespace test_app
 
         private void menu_Btn(object sender, RoutedEventArgs e)
         {
+            if (menu_Area.IsVisible)
+            {
+                close_menu();
+
+                game_Start();
+            }
+            else
+            {
+                open_menu();
+
+                game_Stop();
+            }
+        }
+
+        private void close_menu()
+        {
+            menu_Area.Visibility = Visibility.Collapsed;
+            menu_Restart_Button.Visibility = Visibility.Collapsed;
+            menu_Exit_Button.Visibility = Visibility.Collapsed;
+            menu_Game_Exit_Button.Visibility = Visibility.Collapsed;
+        }
+
+        private void open_menu()
+        {
             menu_Area.Visibility = Visibility.Visible;
             menu_Restart_Button.Visibility = Visibility.Visible;
             menu_Exit_Button.Visibility = Visibility.Visible;
-
-            game_Stop();
+            menu_Game_Exit_Button.Visibility = Visibility.Visible;
         }
 
         private void game_Exit_Btn(object sender, RoutedEventArgs e)
@@ -238,6 +291,13 @@ namespace test_app
             timer++;
 
             Time.Content = "Czas: " + timer + " s";
+        }
+
+        private void game_Menu_Exit(object sender, RoutedEventArgs e)
+        {
+            close_menu();
+
+            game_Start();
         }
 
         private void game_Stop()
@@ -320,19 +380,22 @@ namespace test_app
             Canvas.SetTop(player, 460);
 
             Canvas.SetLeft(obstacle1, 950);
-            Canvas.SetTop(obstacle1, 510);
+            Canvas.SetTop(obstacle1, 520);
+
+            ground.Visibility = Visibility.Collapsed;
 
             Sprite_Change(1);
 
-            obstacle1_Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/obstacle.png"));
+            obstacle1_Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/obstacles/spike C.png"));
             obstacle1.Fill = obstacle1_Sprite;
+
+            obstacle2_Sprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/obstacles/spike D.png"));
+            obstacle2.Fill = obstacle2_Sprite;
 
             Uri default_hearts = new Uri("pack://application:,,,/lifes/hearts_3.png");
             life_hearts.Source = new BitmapImage(default_hearts);
 
-            menu_Area.Visibility = Visibility.Collapsed;
-            menu_Restart_Button.Visibility = Visibility.Collapsed;
-            menu_Exit_Button.Visibility= Visibility.Collapsed;
+            close_menu();
         }
 
         private void StartGame()
@@ -346,7 +409,10 @@ namespace test_app
             lifes = 3;
 
             diff_scrolling = 8;
-            diff_player_speed = 0.5;
+            diff_player_sprite = 0.5;
+
+            passed_obstacles = 0;
+            touched_obstacles = 0;
 
             sprite_index = 0;
 

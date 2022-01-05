@@ -22,6 +22,8 @@ namespace test_app
     {
         private static Random rnd = new Random();
 
+        
+
         bool difficulty_hard;
 
         int addend1;
@@ -137,7 +139,7 @@ namespace test_app
         public void switchh(int a_1, int a_2, int m_1, int m_2, int d_1, int d_2)
         {
             string operator_field;
-            int math_Operator = rnd.Next(5);
+            int math_Operator = rnd.Next(1, 5);
 
             switch (math_Operator)
             {
@@ -164,6 +166,10 @@ namespace test_app
             }
 
             if (operator_field == "+")
+            {
+                math_question.Content = "Podaj wynik działania: " + $"{addend1} {operator_field} {addend2}";
+            }
+            else if (operator_field == "-")
             {
                 math_question.Content = "Podaj wynik działania: " + $"{addend1} {operator_field} {addend2}";
             }
