@@ -15,19 +15,22 @@ using System.Windows.Shapes;
 namespace math_race
 {
     /// <summary>
-    /// Interaction logic for summary.xaml
+    /// Logika interakcji dla klasy summary.xaml
     /// </summary>
-    public partial class summary : Window
+    public partial class Summary : Window
     {
         int time_elapsed, obstacles_passed, obstacles_touched;
 
-        private void game_End_Btn(object sender, RoutedEventArgs e)
-        {
-            DialogResult = false;
-            this.Close();
-        }
-
-        public summary(int timer, int obstacles1, int obstacles2)
+        /// <summary>
+        /// logika okna podsumowującego grę
+        /// </summary>
+        /// <param name="timer"></param>
+        /// ile czasu upłynęło od wystartowania gry
+        /// <param name="obstacles1"></param>
+        /// ile przeszkód gracz ominął
+        /// <param name="obstacles2"></param>
+        /// ile przeszkód gracz dotknął
+        public Summary(int timer, int obstacles1, int obstacles2)
         {
             InitializeComponent();
 
@@ -38,6 +41,15 @@ namespace math_race
             time.Text = time_elapsed.ToString() + " sekund";
             obstacles_p.Text = obstacles_passed.ToString();
             obstacles_t.Text = obstacles_touched.ToString();
+        }
+
+        /// <summary>
+        /// logika dla przycisku 'Zakończ grę'
+        /// </summary>
+        private void Game_End_Btn(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            this.Close();
         }
     }
 }

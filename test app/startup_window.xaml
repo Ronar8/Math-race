@@ -13,8 +13,9 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="75*"/>
-            <RowDefinition Height="109*"/>
+            <RowDefinition Height="55*"/>
+            <RowDefinition Height="60*"/>
+            <RowDefinition Height="69*"/>
             <RowDefinition Height="141*"/>
             <RowDefinition Height="109*"/>
         </Grid.RowDefinitions>
@@ -22,14 +23,15 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Button Name="game_Start_Btn" Content="Start gry" Click="game_Start_Btn_Click" Grid.Row="1" Margin="300,40,300,18"/>
-        <Button Name="game_Exit_Btn" Content="Wyjdź z gry" Click="game_Exit_Btn_Click" Grid.Row="3" Margin="300,17,300,41"/>
-        <Button Name="game_Difficulty_Btn" Content="Zmień poziom trudności " Click="game_Difficulty_Btn_Click" Grid.Row="2" Margin="300,71,300,19"/>
+        <Button Name="game_Start_Btn" Content="Start gry" Click="Game_Start_Btn_Click" Grid.Row="2" Margin="300,8,300,10"/>
+        <Button Name="Game_Exit_Btn" Content="Wyjdź z gry" Click="Game_Exit_Btn_Click" Grid.Row="4" Margin="300,17,300,41"/>
+        <Button Name="game_Difficulty_Btn" Content="Zmień poziom trudności " Click="Game_Difficulty_Btn_Click" Grid.Row="3" Margin="300,71,300,19"/>
 
-        <Popup Name="difficulty_Change" Grid.Row="0" Placement="Center" VerticalOffset="192" Grid.RowSpan="4" Margin="0,0,0,108">
-            <TextBlock Name="difficulty_Change_txtBox" Background="Green" FontSize="16" Text="test" TextAlignment="Center" />
+        <Popup Name="difficulty_Popup" Grid.Row="0" Placement="Center" VerticalOffset="192" Grid.RowSpan="5" Margin="0,0,0,108">
+            <TextBlock Name="difficulty_Popup_txtBox" Background="Green" FontSize="16" Text="test" TextAlignment="Center" />
         </Popup>
-        <Label Name="difficulty_status" FontSize="16" Content="Aktualny poziom trudności: SZKOLA PODSTAWOWA" Margin="212,16,188,82" Grid.Row="2" Foreground="White"/>
+        <Label Name="difficulty_status" FontSize="16" Content="Aktualny poziom trudności: SZKOLA PODSTAWOWA" Margin="212,16,188,82" Grid.Row="3" Foreground="White"/>
+        <Label Content="Alan Borzeszkowski 180562" Margin="194,14,194,10" HorizontalContentAlignment="Center" Foreground="White" Grid.Row="1"/>
 
 
     </Grid>

@@ -61,6 +61,9 @@ namespace math_race
         /// countdown_timer = 3 --> odliczanie trzech sekund przed startem gry
         /// </summary>
         /// <param name="difficulty_hard"></param>
+        /// parametr 'difficulty_hard' ma wartość true lub false, zależnie od wybranego poziomu trudności gry
+        /// difficulty_hard == true --> wybrano poziom trudności liceum
+        /// difficulty_hard == false --> wybrano poziom trudności szkoła podstawowa
         public MainWindow(bool difficulty_hard)
         {
             InitializeComponent();
@@ -71,10 +74,10 @@ namespace math_race
             gameTimer.Interval = TimeSpan.FromMilliseconds(20);
 
             stopwatch.Interval = TimeSpan.FromSeconds(1);
-            stopwatch.Tick += stopwatch_Tick;
+            stopwatch.Tick += Stopwatch_Tick;
 
             countdown.Interval = TimeSpan.FromSeconds(1);
-            countdown.Tick += countdown_Tick;
+            countdown.Tick += Countdown_Tick;
 
             InitializeGameElements();
 
@@ -88,7 +91,6 @@ namespace math_race
 
         /// <summary>
         /// główna logika gry, aktualizowana co 20 milisekund
-        /// 
         /// int player_speed --> szybkość spadania modelu gracza
         /// bool jumping --> czy gracz obecnie jest podczas skoku
         /// double sprite_index --> animacja biegu gracza
@@ -125,7 +127,7 @@ namespace math_race
 
             // inicjalizacja hitboxów
             player_hitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width - 25, player.Height - 5);
-            obstacle1_hitbox = new Rect(Canvas.GetLeft(obstacle1), Canvas.GetTop(obstacle1), obstacle1.Width - 20, obstacle1.Height - 5);
+            obstacle1_hitbox = new Rect(Canvas.GetLeft(obstacle1), Canvas.GetTop(obstacle1), obstacle1.Width - 25, obstacle1.Height - 30);
             obstacle2_hitbox = new Rect(Canvas.GetLeft(obstacle2), Canvas.GetTop(obstacle2), obstacle2.Width - 20, obstacle2.Height - 5);
             ground_hitbox = new Rect(Canvas.GetLeft(ground), Canvas.GetTop(ground), ground.Width, ground.Height);
 
@@ -143,8 +145,8 @@ namespace math_race
                 // dynamiczny poziom trudności, przyspieszenie biegu gracza wraz z upływem czasu
                 if (timer % 5 == 0 && timer != 0)
                 {
-                    diff_player_sprite += 0.001;
-                    diff_scrolling += 0.1;
+                    diff_player_sprite += 0.0005;
+                    diff_scrolling += 0.05;
                 }
 
                 // powtórzenie animacji biegu gracza
@@ -160,6 +162,7 @@ namespace math_race
             {
                 is_touching_obstacle = true;
                 obstacle_number = 1;
+
             }
             else if (player_hitbox.IntersectsWith(obstacle2_hitbox))
             {
@@ -170,19 +173,21 @@ namespace math_race
             // logika gry, kiedy nastąpi kolizja
             if (is_touching_obstacle)
             {
-                game_Stop();
+                Game_Stop();
                 is_touching_obstacle = false;
                 touched_obstacles++;
 
                 // otworzenie okna z danym problemem matematycznym
-                math_solving math_window = new math_solving(difficulty_hard);
-                math_window.Owner = this;
+                Math_Solving math_window = new Math_Solving(difficulty_hard)
+                {
+                    Owner = this
+                };
                 math_window.ShowDialog();
 
                 if (math_window.DialogResult == true)
                 {
-                    change_obstacle_pos(obstacle_number);
-                    game_Start();
+                    Change_Obstacle_Pos(obstacle_number);
+                    Game_Start();
                 }
                 else
                 {
@@ -194,20 +199,22 @@ namespace math_race
                         Uri dynamic_hearts = new Uri("pack://application:,,,/lifes/hearts_" + lifes + ".png");
                         life_hearts.Source = new BitmapImage(dynamic_hearts);
 
-                        change_obstacle_pos(obstacle_number);
-                        game_Start();
+                        Change_Obstacle_Pos(obstacle_number);
+                        Game_Start();
                     }
                     else
                     {
                         life_hearts.Visibility = Visibility.Collapsed;
 
-                        game_Stop();
+                        Game_Stop();
 
                         MessageBox.Show("Wyczerpano limit zyc, koniec gry");
 
                         // otworzenie okna podsumowania
-                        summary summary_window = new summary(timer, passed_obstacles, touched_obstacles);
-                        summary_window.Owner = this;
+                        Summary summary_window = new Summary(timer, passed_obstacles, touched_obstacles)
+                        {
+                            Owner = this
+                        };
                         summary_window.ShowDialog();
 
                         this.Close();
@@ -236,25 +243,25 @@ namespace math_race
             if (Canvas.GetLeft(obstacle1) < -50)
             {
                 obstacle_number = 1;
-                change_obstacle_pos(obstacle_number);
+                Change_Obstacle_Pos(obstacle_number);
                 passed_obstacles++;
             }
             
             if (Canvas.GetLeft(obstacle2) < -50)
             {
                 obstacle_number = 2;
-                change_obstacle_pos(obstacle_number);
+                Change_Obstacle_Pos(obstacle_number);
                 passed_obstacles++;
             }
 
         }
 
         /// <summary>
-        /// zmiana lokalizacji przeszkód poza ekran
-        /// parametr obstacle_number definiuje z którą przeszkodą gracz się zetknął
+        /// zmiana lokalizacji przeszkód poza widoczne pole gry
         /// </summary>
         /// <param name="obstacle_number"></param>
-        private void change_obstacle_pos(int obstacle_number)
+        /// definiuje z którą przeszkodą gracz się zetknął
+        private void Change_Obstacle_Pos(int obstacle_number)
         {
             if (obstacle_number == 1)
             {
@@ -273,34 +280,34 @@ namespace math_race
         /// <summary>
         /// restart gry poprzez otworzenie nowego okna i zamknięcie obecnego
         /// </summary>
-        private void game_Restart_Btn(object sender, RoutedEventArgs e)
+        private void Game_Restart_Btn(object sender, RoutedEventArgs e)
         {
-            MainWindow mW = new MainWindow(difficulty_hard);
-            mW.Show();
+            startup_window sW = new startup_window();
+            sW.Show();
             this.Close();
         }
 
         /// <summary>
         /// otworzenie i zamknięcie menu podczas rozgrywki
         /// </summary>
-        private void menu_Btn(object sender, RoutedEventArgs e)
+        private void Menu_Btn(object sender, RoutedEventArgs e)
         {
             if (menu_Area.IsVisible)
             {
-                close_menu();
-                game_Start();
+                Close_Menu();
+                Game_Start();
             }
             else
             {
-                open_menu();
-                game_Stop();
+                Open_Menu();
+                Game_Stop();
             }
         }
 
         /// <summary>
         /// zamknięcie menu podczas rozgrywki
         /// </summary>
-        private void close_menu()
+        private void Close_Menu()
         {
             menu_Area.Visibility = Visibility.Collapsed;
             menu_Restart_Button.Visibility = Visibility.Collapsed;
@@ -311,7 +318,7 @@ namespace math_race
         /// <summary>
         /// otworzenie menu podczas rozgrywki
         /// </summary>
-        private void open_menu()
+        private void Open_Menu()
         {
             menu_Area.Visibility = Visibility.Visible;
             menu_Restart_Button.Visibility = Visibility.Visible;
@@ -320,29 +327,29 @@ namespace math_race
         }
 
 
-        private void game_Exit_Btn(object sender, RoutedEventArgs e)
+        private void Game_Exit_Btn(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void game_Menu_Exit(object sender, RoutedEventArgs e)
+        private void Game_Menu_Exit_Btn(object sender, RoutedEventArgs e)
         {
-            close_menu();
-            game_Start();
+            Close_Menu();
+            Game_Start();
         }
 
         /// <summary>
         /// stoper liczący czas gry
-        /// timer --> licznik czasu gry
+        /// int timer --> licznik czasu gry
         /// </summary>
-        private void stopwatch_Tick(object sender, EventArgs e)
+        private void Stopwatch_Tick(object sender, EventArgs e)
         {
             timer++;
 
             Time.Content = "Czas: " + timer + " s";
         }
 
-        private void countdown_Tick(object sender, EventArgs e)
+        private void Countdown_Tick(object sender, EventArgs e)
         {
             if (countdown_timer > 0)
             {
@@ -358,17 +365,30 @@ namespace math_race
             }
         }
 
-        private void game_Stop()
+        /// <summary>
+        /// funkcja zatrzymania silnika gry
+        /// </summary>
+        private void Game_Stop()
         {
             gameTimer.Stop();
             stopwatch.Stop();
             countdown.Stop();
         }
 
-        private void game_Start()
+        /// <summary>
+        /// funkcja wystartowania silnika gry
+        /// </summary>
+        private void Game_Start()
         {
-            gameTimer.Start();
-            stopwatch.Start();
+            if (countdown_timer > 0)
+            {
+                countdown.Start();
+            }
+            else
+            {
+                gameTimer.Start();
+                stopwatch.Start();
+            }
         }
 
         //two functions related to dynamic difficulty, not working properly
@@ -414,7 +434,7 @@ namespace math_race
         }
 
         /// <summary>
-        /// inicjalizacja elementów gry takich jak tło, początkowe położenie przeszkód, modelu gracza, liczby żyć
+        /// inicjalizacja elementów gry takich jak tło, początkowe położenie przeszkód, modelu gracza, liczba żyć
         /// </summary>
         private void InitializeGameElements()
         {
@@ -445,7 +465,7 @@ namespace math_race
             Uri default_hearts = new Uri("pack://application:,,,/lifes/hearts_3.png");
             life_hearts.Source = new BitmapImage(default_hearts);
 
-            close_menu();
+            Close_Menu();
         }
 
         /// <summary>
@@ -469,14 +489,14 @@ namespace math_race
 
             sprite_index = 0;
 
-            game_Start();
+            Game_Start();
         }
 
         /// <summary>
         /// funkcja zmiany modelu gracza w celu stworzenia animacji
-        /// parametr i odpowiada za przełączanie modeli gracza
         /// </summary>
         /// <param name="i"></param>
+        /// parametr i odpowiada za przełączanie modeli gracza
         private void Sprite_Change(double i)
         {
             playerSprite.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/runner_0" + Math.Ceiling(i) + ".gif"));

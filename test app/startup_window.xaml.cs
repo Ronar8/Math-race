@@ -25,17 +25,26 @@ namespace math_race
         bool difficulty_hard = false;
 
         int timeLeft_popup;
+
+        /// <summary>
+        /// logika dla okna startowego
+        /// int timeLeft_popup --> jak długo powiadomienie o zmianie trudności widnieje w oknie
+        /// </summary>
         public startup_window()
         {
             InitializeComponent();
 
             popup_timer.Interval = TimeSpan.FromSeconds(2);
-            popup_timer.Tick += popup_timer_tick;
+            popup_timer.Tick += Popup_Timer_Tick;
 
             timeLeft_popup = 2;
         }
 
-        private void popup_timer_tick(object sender, EventArgs e)
+        /// <summary>
+        /// stoper określający czas widnienia powiadomienia o zmianie trudności w oknie startowym
+        /// po upływie określonego czasu, powiadomienie znika
+        /// </summary>
+        private void Popup_Timer_Tick(object sender, EventArgs e)
         {
             if (timeLeft_popup > 0)
             {
@@ -44,42 +53,49 @@ namespace math_race
             else
             {
                 popup_timer.Stop();
-                difficulty_Change.IsOpen = false;
+                difficulty_Popup.IsOpen = false;
             }
         }
-
-        private void game_Start_Btn_Click(object sender, RoutedEventArgs e)
+        
+        /// <summary>
+        /// logika dla przycisku 'Start gry'
+        /// </summary>
+        private void Game_Start_Btn_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow(difficulty_hard);
             mainWindow.Show();
             this.Close();
         }
 
-        private void game_Exit_Btn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// logika dla przycisku 'Wyjdź z gry'
+        /// </summary>
+        private void Game_Exit_Btn_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
 
-        private void game_Difficulty_Btn_Click(object sender, RoutedEventArgs e)
+        /// <summary>
+        /// logika dla przycisku 'Zmień poziom trudności'
+        /// </summary>
+        private void Game_Difficulty_Btn_Click(object sender, RoutedEventArgs e)
         {
             popup_timer.Start();
 
-            difficulty_Change.IsOpen = true;
+            difficulty_Popup.IsOpen = true;
 
             if (difficulty_hard == false)
             {
                 difficulty_status.Content = "Aktualny poziom trudności: LICEUM";
-                difficulty_Change_txtBox.Text = "Zmieniono poziom trudności na: LICEUM";
+                difficulty_Popup_txtBox.Text = "Zmieniono poziom trudności na: LICEUM";
                 difficulty_hard = true;
             }
             else
             {
                 difficulty_status.Content = "Aktualny poziom trudności: SZKOLA PODSTAWOWA";
-                difficulty_Change_txtBox.Text = "Zmieniono poziom trudności na: SZKOLA PODSTAWOWA";
+                difficulty_Popup_txtBox.Text = "Zmieniono poziom trudności na: SZKOLA PODSTAWOWA";
                 difficulty_hard = false;
             }
-            
-            
         }
     }
 }
