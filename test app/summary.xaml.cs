@@ -38,7 +38,7 @@ namespace math_race
             this.obstacles_passed = obstacles1;
             this.obstacles_touched = obstacles2;
 
-            time.Text = time_elapsed.ToString() + " sekund";
+            time.Text = time_elapsed.ToString() + " sekund(y)";
             obstacles_p.Text = obstacles_passed.ToString();
             obstacles_t.Text = obstacles_touched.ToString();
         }

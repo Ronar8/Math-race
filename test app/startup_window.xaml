@@ -8,7 +8,7 @@
         WindowStartupLocation="CenterScreen"
         Title="startup_window" Height="450" Width="800">
     <Window.Background>
-        <ImageBrush TileMode="None" ImageSource="/startup_background_test.png"/>
+        <ImageBrush TileMode="None" ImageSource="/images/startup_background.png"/>
     </Window.Background>
 
     <Grid>

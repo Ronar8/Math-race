@@ -134,7 +134,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\background.gif" />
     <Resource Include="images\runner_01.gif" />
     <Resource Include="images\runner_02.gif" />
     <Resource Include="images\runner_03.gif" />
@@ -160,13 +159,7 @@
     <Resource Include="images\sunnyday.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="sunnyday.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="images\startup_background_test.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="startup_background_test.png" />
+    <Resource Include="images\startup_background.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="obstacles\spike A.png" />
@@ -188,6 +181,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\tile_platform.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

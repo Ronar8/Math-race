@@ -34,7 +34,7 @@ namespace math_race
         ImageBrush obstacle1_Sprite = new ImageBrush();
         ImageBrush obstacle2_Sprite = new ImageBrush();
 
-        Rect player_hitbox, ground_hitbox, obstacle1_hitbox, obstacle2_hitbox;
+        Rect player_hitbox, ground_hitbox, obstacle1_hitbox, obstacle2_hitbox, platform_hitbox;
 
         // inicjalizacja zmiennej rand dla funkcji liczb losowych
         private static Random rand = new Random();
@@ -124,20 +124,29 @@ namespace math_race
             // przesuwanie przeszkód od prawej do lewej z dynamiczną prędkością
             Canvas.SetLeft(obstacle1, Canvas.GetLeft(obstacle1) - diff_scrolling - 4);
             Canvas.SetLeft(obstacle2, Canvas.GetLeft(obstacle2) - diff_scrolling - 4);
+            Canvas.SetLeft(platform, Canvas.GetLeft(platform) - diff_scrolling - 4);
 
             // inicjalizacja hitboxów
             player_hitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width - 25, player.Height - 5);
-            obstacle1_hitbox = new Rect(Canvas.GetLeft(obstacle1), Canvas.GetTop(obstacle1), obstacle1.Width - 25, obstacle1.Height - 30);
+            obstacle1_hitbox = new Rect(Canvas.GetLeft(obstacle1), Canvas.GetTop(obstacle1), obstacle1.Width - 45, obstacle1.Height - 30);
             obstacle2_hitbox = new Rect(Canvas.GetLeft(obstacle2), Canvas.GetTop(obstacle2), obstacle2.Width - 20, obstacle2.Height - 5);
             ground_hitbox = new Rect(Canvas.GetLeft(ground), Canvas.GetTop(ground), ground.Width, ground.Height);
+            platform_hitbox = new Rect(Canvas.GetLeft(platform), Canvas.GetTop(platform), platform.Width, platform.Height);
 
-            // logika 'lądowania' gracza na platformie (ziemi)
-            if (player_hitbox.IntersectsWith(ground_hitbox))
+            // logika 'lądowania' gracza na platformie lub ziemi
+            if (player_hitbox.IntersectsWith(ground_hitbox) || player_hitbox.IntersectsWith(platform_hitbox))
             {
                 player_speed = 0;
 
-                Canvas.SetTop(player, Canvas.GetTop(ground) - player.Height);
-
+                if (player_hitbox.IntersectsWith(ground_hitbox))
+                {
+                    Canvas.SetTop(player, Canvas.GetTop(ground) - player.Height);
+                }
+                else if (player_hitbox.IntersectsWith(platform_hitbox))
+                {
+                    Canvas.SetTop(player, Canvas.GetTop(platform) - player.Height);
+                }
+                
                 jumping = false;
 
                 sprite_index += diff_player_sprite;
@@ -254,6 +263,12 @@ namespace math_race
                 passed_obstacles++;
             }
 
+            // powtórzenie dodatkowej platformy w oknie gry
+            if (Canvas.GetLeft(platform) < -400)
+            {
+                Change_Platform_Position();
+            }
+
         }
 
         /// <summary>
@@ -271,10 +286,19 @@ namespace math_race
             }
             else if (obstacle_number == 2)
             {
-                Canvas.SetLeft(obstacle2, 1500);
+                Canvas.SetLeft(obstacle2, 1300);
 
                 Canvas.SetTop(obstacle2, obstacle_height[rand.Next(0, obstacle_height.Length)]);
             }
+        }
+
+        /// <summary>
+        /// zmiana lokalizacji platformy poza widoczne pole gry
+        /// </summary>
+        private void Change_Platform_Position()
+        {
+            Canvas.SetLeft(platform, 3100);
+            Canvas.SetTop(platform, 470);
         }
 
         /// <summary>
@@ -451,6 +475,9 @@ namespace math_race
 
             Canvas.SetLeft(obstacle1, 950);
             Canvas.SetTop(obstacle1, 520);
+
+            Canvas.SetLeft(platform, 900);
+            Canvas.SetTop(platform, 470);
 
             ground.Visibility = Visibility.Collapsed;
 
